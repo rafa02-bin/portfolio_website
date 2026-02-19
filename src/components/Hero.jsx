@@ -17,9 +17,9 @@ export default function Hero() {
             <p className="text-lg text-slate-700 mb-8 leading-relaxed">
               I build modern, scalable web applications with clean code and innovative solutions. Passionate about solving complex problems and creating exceptional user experiences.
             </p>
-            <button className="btn-neon">
+            <a href="/Jafar Mohamad.pdf" download="Jafar-Mohamad-CV.pdf" className="btn-neon">
               DOWNLOAD CV
-            </button>
+            </a>
           </div>
         </div>
       </div>

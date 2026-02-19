@@ -24,6 +24,13 @@ export default function Projects() {
       tech: 'Unity & C# (In Active Development)',
       description: 'An atmospheric 2D platformer currently being developed in Unity, centered on a state-driven memory system. I am implementing C# scripting for responsive player movement and a dynamic puzzle framework involving 4-position rotating mirrors and pressure-plate triggers. The core of the project involves building a custom "Echo" mechanic that tracks and replays player transforms to create interactive environmental challenges. Currently refining the interaction between "Happy" and "Sad" memory planes and optimizing the playback of player state data.',
       image: '/game_placeholder.png'
+    },
+    {
+      id: 4,
+      title: 'VibeFit',
+      tech: 'React, Node.js, MongoDB',
+      description: 'A fitness app that helps you stay fit and healthy.',
+      image: 'https://via.placeholder.com/300x200'
     }
   ];
 

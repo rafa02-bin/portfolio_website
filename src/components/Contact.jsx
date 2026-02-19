@@ -1,82 +1,87 @@
 import { useState } from 'react';
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
   const [notification, setNotification] = useState('');
 
-  const contactInfo = [
-    { title: 'Email', label: 'Email', value: 'joe.mohamad.02@gmail.com', href: 'mailto:joe.mohamad.02@gmail.com' },
-    { title: 'GitHub', label: 'GitHub', value: 'github.com/rafa02-bin', href: 'https://github.com/rafa02-bin' },
-    { title: 'Discord', label: 'Discord', value: 'rafa02_bin', href: null },
-    { title: 'LinkedIn', label: 'LinkedIn', value: 'https://www.linkedin.com/in/jafar-mohamad-7922a53a4/', href: 'https://linkedin.com' },
-    { title: 'Phone', label: 'Phone', value: '+91 9900312491', href: 'tel:+1234567890' },
-    { title: 'Location', label: 'Location', value: 'Bangalore, India', href: null }
-  ];
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const copyEmail = () => {
-    const email = 'joe.mohamad.02@gmail.com';
-    navigator.clipboard.writeText(email).then(() => {
-      setNotification(`✓ Email copied: ${email}`);
-      setTimeout(() => setNotification(''), 3000);
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, message } = formData;
+    const mailtoLink = `mailto:jafar.mohamad@example.com?subject=Contact from ${name}&body=${message}%0D%0A%0D%0AFrom:%20${name}%0D%0AEmail:%20${email}`;
+    window.location.href = mailtoLink;
+    setNotification('Your message has been sent!');
+    setTimeout(() => setNotification(''), 3000);
+    setFormData({ name: '', email: '', message: '' });
   };
 
   return (
-    <section id="contact" className="relative py-20 px-4 bg-gradient-to-br from-pastel-yellow to-white">
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" className="py-20 px-4 bg-gradient-to-br from-white to-pastel-blue">
+      <div className="max-w-2xl mx-auto">
         <h2 className="section-title text-center mb-4">Get In Touch</h2>
-        <p className="text-center text-slate-600 mb-12 text-lg">Let's connect and discuss exciting opportunities</p>
+        <p className="text-center text-slate-600 mb-12 text-lg">I'm always open to discussing new projects and opportunities.</p>
 
-        {/* Contact Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {contactInfo.map((item, index) => (
-            <div key={index} className="bg-white rounded-lg border-2 border-pastel-pink p-6 hover:border-blue-300 transition neon-glow">
-              <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-              {item.href ? (
-                <>
-                  {item.href.startsWith('tel:') ? (
-                    <a href={item.href} className="text-blue-600 hover:text-blue-800 transition">
-                      {item.value}
-                    </a>
-                  ) : item.href.startsWith('mailto:') ? (
-                    <a href={item.href} className="text-blue-600 hover:text-blue-800 transition">
-                      {item.value}
-                    </a>
-                  ) : (
-                    <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition">
-                      {item.value}
-                    </a>
-                  )}
-                </>
-              ) : (
-                <p className="text-slate-700">{item.value}</p>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* CTA Contact */}
-        <div className="text-center">
-          <p className="text-2xl text-slate-900 mb-6 font-bold">Ready to collaborate? Let's build something great together.</p>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="name" className="block text-slate-800 font-medium mb-2">Name</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required 
+              className="w-full px-4 py-2 border border-pastel-purple rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+              placeholder="Your Name" 
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-slate-800 font-medium mb-2">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required 
+              className="w-full px-4 py-2 border border-pastel-purple rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+              placeholder="Your Email" 
+            />
+          </div>
+          <div>
+            <label htmlFor="message" className="block text-slate-800 font-medium mb-2">Message</label>
+            <textarea 
+              id="message" 
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required 
+              rows="5" 
+              className="w-full px-4 py-2 border border-pastel-purple rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+              placeholder="Your Message"
+            ></textarea>
+          </div>
           <button 
-            onClick={copyEmail}
-            className="btn-neon text-lg"
+            type="submit" 
+            className="w-full btn-neon py-3"
           >
-            COPY EMAIL
+            Send Message
           </button>
-        </div>
+        </form>
 
         {notification && (
           <div className="fixed bottom-4 right-4 bg-gradient-to-r from-pastel-pink to-pastel-purple text-slate-900 px-6 py-3 rounded font-semibold neon-glow">
             {notification}
           </div>
         )}
-      </div>
-
-      {/* Wave Divider - Transitions to Footer (Slate 900) */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none rotate-180">
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[60px] text-slate-900 fill-current">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
-        </svg>
       </div>
     </section>
   );
