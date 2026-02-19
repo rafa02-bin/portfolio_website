@@ -1,81 +1,71 @@
 import { useState } from 'react';
+import { FiMail, FiLinkedin, FiGithub, FiPhone, FiCopy } from 'react-icons/fi';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-
   const [notification, setNotification] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setNotification('Phone number copied to clipboard!');
+      setTimeout(() => setNotification(''), 3000);
+    });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, message } = formData;
-    const mailtoLink = `mailto:jafar.mohamad@example.com?subject=Contact from ${name}&body=${message}%0D%0A%0D%0AFrom:%20${name}%0D%0AEmail:%20${email}`;
-    window.location.href = mailtoLink;
-    setNotification('Your message has been sent!');
-    setTimeout(() => setNotification(''), 3000);
-    setFormData({ name: '', email: '', message: '' });
-  };
+  const contactInfo = [
+    {
+      icon: <FiMail />,
+      text: 'joe.mohamad.02@gmail.com',
+      action: 'mailto:joe.mohamad.02@gmail.com',
+    },
+    {
+      icon: <FiLinkedin />,
+      text: 'LinkedIn',
+      action: 'https://www.linkedin.com/in/jafar-mohamad-7922a53a4/',
+    },
+    {
+      icon: <FiGithub />,
+      text: 'GitHub',
+      action: 'https://github.com/rafa02-bin',
+    },
+    {
+      icon: <FiPhone />,
+      text: '+91 9900312491',
+      action: () => copyToClipboard('+91 9900312491'),
+    },
+  ];
 
   return (
     <section id="contact" className="py-20 px-4 bg-gradient-to-br from-white to-pastel-blue">
-      <div className="max-w-2xl mx-auto">
-        <h2 className="section-title text-center mb-4">Get In Touch</h2>
-        <p className="text-center text-slate-600 mb-12 text-lg">I'm always open to discussing new projects and opportunities.</p>
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="section-title mb-4">Contact Me</h2>
+        <p className="text-slate-600 mb-12 text-lg">Feel free to reach out. I'm always happy to connect!</p>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-slate-800 font-medium mb-2">Name</label>
-            <input 
-              type="text" 
-              id="name" 
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required 
-              className="w-full px-4 py-2 border border-pastel-purple rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
-              placeholder="Your Name" 
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-slate-800 font-medium mb-2">Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required 
-              className="w-full px-4 py-2 border border-pastel-purple rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
-              placeholder="Your Email" 
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="block text-slate-800 font-medium mb-2">Message</label>
-            <textarea 
-              id="message" 
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required 
-              rows="5" 
-              className="w-full px-4 py-2 border border-pastel-purple rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
-              placeholder="Your Message"
-            ></textarea>
-          </div>
-          <button 
-            type="submit" 
-            className="w-full btn-neon py-3"
-          >
-            Send Message
-          </button>
-        </form>
+        <div className="space-y-6">
+          {contactInfo.map((item, index) => (
+            <div key={index} className="flex items-center justify-center">
+              {typeof item.action === 'string' ? (
+                <a 
+                  href={item.action} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-4 p-4 rounded-lg bg-white border border-pastel-purple hover:bg-pastel-blue transition-colors duration-300 w-full max-w-md"
+                >
+                  <span className="text-blue-600 text-2xl">{item.icon}</span>
+                  <span className="text-slate-800 font-medium">{item.text}</span>
+                </a>
+              ) : (
+                <button 
+                  onClick={item.action} 
+                  className="flex items-center gap-4 p-4 rounded-lg bg-white border border-pastel-purple hover:bg-pastel-blue transition-colors duration-300 w-full max-w-md"
+                >
+                  <span className="text-blue-600 text-2xl">{item.icon}</span>
+                  <span className="text-slate-800 font-medium">{item.text}</span>
+                  <span className="text-slate-500 ml-auto"><FiCopy /></span>
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
 
         {notification && (
           <div className="fixed bottom-4 right-4 bg-gradient-to-r from-pastel-pink to-pastel-purple text-slate-900 px-6 py-3 rounded font-semibold neon-glow">
