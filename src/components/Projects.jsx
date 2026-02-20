@@ -27,8 +27,8 @@ export default function Projects() {
     },
     {
       id: 4,
-      title: 'VibeFit (In Active Development)',
-      tech: 'React, Node.js, MongoDB',
+      title: 'VibeFit',
+      tech: 'React, Node.js, MongoDB (In Active Development)',
       description: 'A fitness app that helps you stay fit and healthy.',
       image: 'https://via.placeholder.com/300x200'
     }
